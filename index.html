@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keep in Touch · July Gatherings 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #2c2420;
+    --ink-soft: #5c4f48;
+    --ink-ghost: #a89d96;
+    --paper: #f5f0e8;
+    --paper-warm: #ede5d8;
+    --paper-deep: #e3d8c8;
+    --line: #d9cfc2;
+    --sage: #7a9e82;
+    --clay: #b8694a;
+    --dusk: #8b7eb8;
+    --gold: #c4923a;
+    --rose: #c47a82;
+    --moss: #6b8c72;
+    --accent-strip: #e8dfd0;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--paper); color: var(--ink); font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: 15px; line-height: 1.7; min-height: 100vh; }
+
+  .zh { display: none; }
+  body.lang-zh .en { display: none; }
+  body.lang-zh .zh { display: block; }
+  body.lang-zh .zh-inline { display: inline; }
+  body.lang-zh .en-inline { display: none; }
+  .zh-inline { display: none; }
+  .en-inline { display: inline; }
+
+  .lang-bar { display: flex; justify-content: flex-end; padding: 1rem 1.5rem 0; }
+  .lang-toggle { display: flex; background: var(--paper-warm); border: 0.5px solid var(--line); border-radius: 20px; overflow: hidden; }
+  .lang-btn { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 400; letter-spacing: 0.06em; padding: 5px 14px; border: none; background: transparent; color: var(--ink-ghost); cursor: pointer; transition: all 0.2s; }
+  .lang-btn.active { background: var(--ink); color: var(--paper); border-radius: 20px; }
+
+  .site-header { text-align: center; padding: 3rem 2rem 2.5rem; border-bottom: 0.5px solid var(--line); background: var(--paper); }
+  .brand-mark { font-family: 'EB Garamond', serif; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--ink-ghost); margin-bottom: 1.5rem; }
+  .site-title { font-family: 'EB Garamond', serif; font-size: clamp(32px, 6vw, 52px); font-weight: 400; line-height: 1.15; color: var(--ink); margin-bottom: 1.5rem; }
+  .site-title em { font-style: italic; color: var(--clay); }
+  .header-body { font-family: 'EB Garamond', serif; font-size: 18px; color: var(--ink-soft); max-width: 560px; margin: 0 auto; line-height: 1.9; text-align: center; }
+  .header-body p { margin-bottom: 1rem; }
+  .header-body p:last-child { margin-bottom: 0; }
+  .ichigo { font-style: italic; color: var(--clay); font-size: 22px; text-align: center; display: block; margin: 1.25rem 0 0.25rem; }
+  .ichigo-sub { font-style: italic; color: var(--ink-soft); font-size: 17px; text-align: center; display: block; margin-bottom: 1.25rem; }
+  .payment-strip { background: var(--paper-deep); border-top: 0.5px solid var(--line); border-bottom: 0.5px solid var(--line); padding: 1rem 2rem; text-align: center; font-size: 13px; color: var(--ink-soft); letter-spacing: 0.04em; line-height: 1.6; }
+  .payment-strip strong { color: var(--ink); font-weight: 400; }
+
+  .events-wrapper { max-width: 680px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+  .section-eyebrow { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-ghost); margin-bottom: 2rem; padding-bottom: 0.75rem; border-bottom: 0.5px solid var(--line); }
+
+  .event { border-bottom: 0.5px solid var(--line); }
+  .event-trigger { display: grid; grid-template-columns: 3px 1fr auto; gap: 0 1.25rem; align-items: center; padding: 1.5rem 0; cursor: pointer; transition: opacity 0.15s; background: none; border: none; width: 100%; text-align: left; }
+  .event-trigger:hover { opacity: 0.7; }
+  .event-accent { width: 3px; height: 40px; border-radius: 2px; align-self: center; }
+  .event-main { min-width: 0; }
+  .event-date { font-size: 12px; letter-spacing: 0.1em; color: var(--ink-ghost); text-transform: uppercase; margin-bottom: 3px; }
+  .event-name { font-family: 'EB Garamond', serif; font-size: 24px; font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: 4px; }
+  .event-venue { font-family: 'EB Garamond', serif; font-size: 14px; color: var(--ink-soft); }
+  .event-right { text-align: right; flex-shrink: 0; }
+  .event-price { font-family: 'EB Garamond', serif; font-size: 20px; color: var(--ink); display: block; }
+  .event-capacity { font-size: 12px; color: var(--ink-ghost); letter-spacing: 0.05em; }
+  .event-chevron { font-size: 18px; color: var(--ink-ghost); margin-top: 6px; transition: transform 0.25s ease; display: block; }
+  .event.open .event-chevron { transform: rotate(180deg); }
+
+  .event-body { display: none; padding: 0 0 2rem 1.5rem; }
+  .event.open .event-body { display: block; }
+  .event-description { font-family: 'EB Garamond', serif; font-size: 19px; line-height: 1.8; color: var(--ink-soft); margin-bottom: 1.5rem; font-style: italic; }
+  .event-description p { margin-bottom: 0.85rem; }
+  .event-description p:last-child { margin-bottom: 0; }
+  .event-meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem; }
+  .meta-pill { font-size: 12px; color: var(--ink-soft); background: var(--paper-warm); border: 0.5px solid var(--line); border-radius: 20px; padding: 5px 13px; }
+  .collaborators { font-size: 14px; color: var(--ink-ghost); margin-bottom: 1.75rem; font-style: italic; }
+  .payment-note { font-size: 13px; color: var(--ink-soft); line-height: 1.65; padding: 12px 14px; background: var(--paper-warm); border-left: 2px solid var(--sage); border-radius: 0 4px 4px 0; margin-bottom: 1.25rem; }
+
+  .signup-form { display: flex; flex-direction: column; gap: 10px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .signup-form input, .signup-form select { font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: 14px; background: var(--paper-warm); border: 0.5px solid var(--line); border-radius: 4px; padding: 10px 14px; color: var(--ink); outline: none; transition: border-color 0.15s; width: 100%; }
+  .signup-form input:focus, .signup-form select:focus { border-color: var(--ink-soft); }
+  .signup-form input::placeholder { color: var(--ink-ghost); }
+
+  .submit-btn { font-family: 'DM Sans', sans-serif; font-weight: 400; font-size: 13px; letter-spacing: 0.08em; background: var(--ink); color: var(--paper); border: none; border-radius: 4px; padding: 12px 1.5rem; cursor: pointer; transition: background 0.15s; text-transform: uppercase; width: 100%; margin-top: 4px; }
+  .submit-btn:hover:not(:disabled) { background: var(--ink-soft); }
+  .submit-btn:disabled { opacity: 0.6; cursor: default; }
+
+  .site-footer { text-align: center; padding: 2.5rem 2rem 3rem; border-top: 0.5px solid var(--line); }
+  .footer-sig { font-family: 'EB Garamond', serif; font-size: 22px; font-style: italic; color: var(--ink-soft); margin-bottom: 0.5rem; }
+  .footer-handle { font-size: 12px; color: var(--ink-ghost); letter-spacing: 0.1em; }
+
+  @media (max-width: 520px) {
+    /* Header */
+    .site-header { padding: 2.5rem 1.25rem 2rem; }
+    .site-title { font-size: 28px; margin-bottom: 1.25rem; }
+    .header-body { font-size: 16px; line-height: 1.8; }
+    .ichigo { font-size: 18px; }
+    .ichigo-sub { font-size: 15px; }
+
+    /* Payment strip */
+    .payment-strip { font-size: 13px; padding: 0.875rem 1.25rem; line-height: 1.6; }
+
+    /* Events wrapper */
+    .events-wrapper { padding: 2rem 1rem 3rem; }
+
+    /* Event trigger — larger tap target */
+    .event-trigger { padding: 1.25rem 0; gap: 0 1rem; }
+    .event-date { font-size: 11px; letter-spacing: 0.06em; }
+    .event-name { font-size: 20px; }
+    .event-venue { font-size: 13px; }
+    .event-price { font-size: 18px; }
+    .event-capacity { font-size: 11px; }
+    .event-chevron { font-size: 16px; }
+
+    /* Event body */
+    .event-body { padding: 0 0 1.75rem 0.75rem; }
+    .event-description { font-size: 17px; line-height: 1.75; margin-bottom: 1.25rem; }
+    .event-description p { margin-bottom: 0.75rem; }
+
+    /* Pills */
+    .meta-pill { font-size: 12px; padding: 5px 11px; }
+
+    /* Payment note — larger for mobile reading */
+    .payment-note { font-size: 13px; line-height: 1.65; padding: 12px 14px; margin-bottom: 1rem; }
+
+    /* Form — all fields full width on mobile */
+    .form-row { grid-template-columns: 1fr; gap: 8px; }
+    .signup-form { gap: 8px; }
+    .signup-form input, .signup-form select { 
+      font-size: 16px; /* prevents iOS zoom on focus */
+      padding: 12px 14px; 
+    }
+
+    /* Submit button — bigger tap target */
+    .submit-btn { 
+      font-size: 13px; 
+      padding: 14px 1.5rem; 
+      margin-top: 6px; 
+    }
+
+    /* Lang toggle */
+    .lang-bar { padding: 0.875rem 1rem 0; }
+    .lang-btn { padding: 6px 16px; font-size: 12px; }
+
+    /* Footer */
+    .site-footer { padding: 2rem 1.25rem 2.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="lang-bar">
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="brand-mark">Keep in Touch · 好好生活</div>
+  <h1 class="site-title">
+    <span class="en">Keep in Touch — July <em>Gatherings</em></span>
+    <span class="zh">Keep in Touch — 七月<em>聚會</em></span>
+  </h1>
+
+  <div class="header-body en">
+    <p>This July, Keep in Touch opens its doors to a series of intimate gatherings shaped by food, tea, sound, touch and story.</p>
+    <p>Some unfold around a table. Some bring us closer, gathered in a circle. Some begin with a meal, a cup of tea, a sound — and become something we could never quite plan.</p>
+    <span class="ichigo">ichigo ichie</span>
+    <span class="ichigo-sub">One time, one meeting.</span>
+    <p>No gathering can ever be repeated in quite the same way.</p>
+    <p>Who we find ourselves beside, what is shared around the table, the conversations that unfold, the unexpected moments in between — all of it belongs only to that time, that place, that meeting.</p>
+    <p>Perhaps that is the beauty of gathering.</p>
+    <p>We come together for a little while. We share what is here. And we let each encounter become what it wants to become.</p>
+  </div>
+
+  <div class="header-body zh">
+    <p>這個七月，Keep in Touch 將打開空間，邀請你走進一系列由食物、茶、聲音、觸感與故事交織而成的小型聚會。</p>
+    <p>有些，在餐桌上慢慢展開。有些，讓我們圍坐在一起，靠近彼此。有些，從一頓飯、一杯茶、一段聲音開始——然後，走向我們未曾預想的地方。</p>
+    <span class="ichigo">一期一會</span>
+    <span class="ichigo-sub">一時一遇</span>
+    <p>沒有一次相聚，能夠以完全相同的方式再次發生。</p>
+    <p>那天與誰坐在彼此身旁、餐桌上分享了什麼、自然展開的對話，還有那些意料之外的片刻——一切，都只屬於那個時間、那個地方、那一次相遇。</p>
+    <p>也許，這就是相聚的美好。</p>
+    <p>我們短暫相聚，分享此刻所有，也讓每一次相遇，自然成為它想成為的模樣。</p>
+  </div>
+</header>
+
+<div class="payment-strip">
+  <span class="en-inline">Payment via </span><span class="zh-inline">付款方式：</span>
+  <strong>FPS 94551100</strong>
+  <span class="en-inline"> · WhatsApp your payment slip to </span><span class="zh-inline"> · 付款後請 WhatsApp 付款截圖至 </span>
+  <strong>94551100</strong>
+  <span class="en-inline"> to confirm your spot</span><span class="zh-inline"> 以確認位置</span>
+</div>
+
+<main class="events-wrapper">
+  <div class="section-eyebrow">
+    <span class="en-inline">Upcoming experiences — tap to open</span>
+    <span class="zh-inline">即將到來的體驗 — 點擊展開</span>
+  </div>
+
+  <!-- EVENT 1 -->
+  <div class="event">
+    <button class="event-trigger" onclick="toggleEvent(this)">
+      <div class="event-accent" style="background:#7a9e8a"></div>
+      <div class="event-main">
+        <div class="event-date"><span class="en-inline">12 July 2026 · 12:00–3:00pm</span><span class="zh-inline">2026年7月12日 · 下午12:00–3:00</span></div>
+        <div class="event-name">Flowing Heartscapes</div>
+        <div class="event-venue"><span class="en-inline">Keep in Touch Studio</span><span class="zh-inline">Keep in Touch Studio</span></div>
+      </div>
+      <div class="event-right">
+        <span class="event-price">HK$600</span>
+        <span class="event-capacity"><span class="en-inline">max 12</span><span class="zh-inline">限額12位</span></span>
+        <span class="event-chevron">↓</span>
+      </div>
+    </button>
+    <div class="event-body">
+      <div class="event-description en">
+        <p>An afternoon of nourishment, deep listening, tea and sound.</p>
+        <p>What might we hear when we give ourselves the time to truly listen?</p>
+        <p>We begin around the table with a seasonal, nourishing lunch prepared by Carina — a meal to be enjoyed slowly, with attention to what is before us and the people beside us.</p>
+        <p>From there, the afternoon opens into a shared practice of listening — to one another, to the spaces between words, and to what is quietly moving within us.</p>
+        <p>With tea by <a href="https://www.instagram.com/aourae.tea/" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline;text-underline-offset:3px;">@eames.auourae</a> and sound by <a href="https://www.instagram.com/kawainflow/" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline;text-underline-offset:3px;">@kawainflow</a>, we journey further inward, allowing taste, vibration and silence to guide us through our inner landscapes.</p>
+        <p>There is nowhere we need to arrive. Only an afternoon to nourish, to listen, to feel — and to see what unfolds.</p>
+      </div>
+      <div class="event-description zh">
+        <p>一個關於滋養、聆聽、茶與聲音的午後。</p>
+        <p>當我們真正留一點時間，好好聆聽——會聽見什麼？</p>
+        <p>我們從餐桌開始。由 Carina 準備當季滋養午餐，慢慢品嚐眼前的食物，也感受此刻與我們同坐的人。</p>
+        <p>飯後，我們把步調再放慢一點，讓聆聽自然發生——聽見彼此，聽見言語之間的留白，也聽見內在那些正在悄悄流動的感受。</p>
+        <p>隨著 <a href="https://www.instagram.com/aourae.tea/" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline;text-underline-offset:3px;">@eames.auourae</a> 的茶與 <a href="https://www.instagram.com/kawainflow/" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline;text-underline-offset:3px;">@kawainflow</a> 的聲音，我們再往內走一點。讓味道、振動與寂靜，引領我們流入各自的內在風景。</p>
+        <p>我們不需要抵達哪裡。只需要一個午後，好好滋養，好好聆聽，好好感受——讓這個午後，自然帶我們去它想去的地方。</p>
+      </div>
+      <div class="event-meta-row">
+        <span class="meta-pill"><span class="en-inline">Welcoming drink</span><span class="zh-inline">歡迎飲品</span></span>
+        <span class="meta-pill"><span class="en-inline">Shared lunch</span><span class="zh-inline">共享午餐</span></span>
+        <span class="meta-pill"><span class="en-inline">Tea ceremony</span><span class="zh-inline">茶道</span></span>
+        <span class="meta-pill"><span class="en-inline">Live sound</span><span class="zh-inline">現場音樂</span></span>
+        <span class="meta-pill"><span class="en-inline">Max 12 guests</span><span class="zh-inline">限額12位</span></span>
+      </div>
+
+      <div class="payment-note">
+        <span class="en-inline">Transfer HK$600 via FPS to 94551100. Include your name in the transfer note. Then WhatsApp your payment slip to 94551100 to confirm your spot.</span>
+        <span class="zh-inline">請轉帳HK$600至FPS 94551100，備註填上你的姓名，再 WhatsApp 付款截圖至 94551100 確認位置。</span>
+      </div>
+      <div class="signup-form" data-event="Flowing Heartscapes">
+        <div class="form-row">
+          <input type="text" data-en="Your name" data-zh="你的姓名" placeholder="Your name" />
+          <input type="tel" data-en="Phone (WhatsApp)" data-zh="電話（WhatsApp）" placeholder="Phone (WhatsApp)" />
+        </div>
+        <input type="email" data-en="Email address" data-zh="電郵地址" placeholder="Email address" />
+        <input type="text" data-en="Dietary restrictions or anything we should know (optional)" data-zh="飲食限制或其他備註（可選）" placeholder="Dietary restrictions or anything we should know (optional)" />
+</div>
+        <button class="submit-btn" data-en="Reserve my spot" data-zh="預留我的位置">Reserve my spot</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENT 2 -->
+  <div class="event">
+    <button class="event-trigger" onclick="toggleEvent(this)">
+      <div class="event-accent" style="background:#8b84c4"></div>
+      <div class="event-main">
+        <div class="event-date"><span class="en-inline">19 July 2026 · 3:00–5:30pm</span><span class="zh-inline">2026年7月19日 · 下午3:00–5:30</span></div>
+        <div class="event-name"><span class="en-inline">After the Sound</span><span class="zh-inline">聲止之後</span></div>
+        <div class="event-venue"><span class="en-inline">Yuti Studio, Yau Ma Tei</span><span class="zh-inline">油麻地 Yuti Studio</span></div>
+      </div>
+      <div class="event-right">
+        <span class="event-price">HK$680</span>
+        <span class="event-capacity"><span class="en-inline">max 12</span><span class="zh-inline">限額12位</span></span>
+        <span class="event-chevron">↓</span>
+      </div>
+    </button>
+    <div class="event-body">
+      <div class="event-description en">
+        <p>An intimate journey through tea, vibration and taste.</p>
+        <p>When the sound fades, what remains?</p>
+        <p>We begin with tea. A quiet ceremony guided by <a href="https://www.instagram.com/aourae.tea/" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline;text-underline-offset:3px;">@aourae.tea</a> — a moment to arrive, to settle, and to notice what is already here.</p>
+        <p>From there, we move into the deep resonance of gong with <a href="https://www.instagram.com/mettawellnesshk/" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline;text-underline-offset:3px;">@mettawellnesshk</a> — allowing waves of sound and vibration to travel through the body, carrying us beyond the need for words.</p>
+        <p>And when the sound comes to rest, we return slowly to the senses. Tea is poured again, this time accompanied by a thoughtful pairing of food prepared by <a href="https://www.instagram.com/carina_heting/" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline;text-underline-offset:3px;">@carina_heting</a>. After travelling through sound, we return to taste slowly — noticing flavour, texture, temperature, and the quiet pleasure of sharing food together.</p>
+        <p>An afternoon that begins with tea, travels through sound, and returns us to taste.</p>
+      </div>
+      <div class="event-description zh">
+        <p>一場穿梭於茶、振動與味覺之間的午後。</p>
+        <p>當聲音漸漸退去，留下來的是什麼？</p>
+        <p>我們從一杯茶開始。由 <a href="https://www.instagram.com/aourae.tea/" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline;text-underline-offset:3px;">@aourae.tea</a> 引領一席安靜的茶席，讓自己慢慢抵達，安頓下來，也留意此刻已然存在的一切。</p>
+        <p>然後，我們隨 <a href="https://www.instagram.com/mettawellnesshk/" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline;text-underline-offset:3px;">@mettawellnesshk</a> 走進銅鑼深沉而綿延的共振之中。讓一層又一層的聲音與振動穿過身體，在無需言語的片刻裡，只是聆聽，只是感受。</p>
+        <p>當最後的餘韻慢慢落下，我們再次回到眼前的感官世界。茶再度注入杯中，伴隨由 Keep in Touch 準備的精心食物配搭。經歷聲音的流動之後，我們慢慢回到味覺——留意風味、質感、溫度，也重新感受一起分享食物，那份安靜而簡單的愉悅。</p>
+        <p>一個從茶開始，穿過聲音，最後回到味覺的午後。</p>
+      </div>
+      <div class="event-meta-row">
+        <span class="meta-pill"><span class="en-inline">Tea ceremony</span><span class="zh-inline">茶席</span></span>
+        <span class="meta-pill"><span class="en-inline">Gong bath</span><span class="zh-inline">銅鑼共振</span></span>
+        <span class="meta-pill"><span class="en-inline">Tea & food pairing</span><span class="zh-inline">茶與食物配搭</span></span>
+        <span class="meta-pill"><span class="en-inline">Limited to 12 guests</span><span class="zh-inline">限額12位</span></span>
+      </div>
+      <div class="payment-note">
+        <span class="en-inline">Transfer HK$680 via FPS to 94551100. Include your name in the transfer note. Then WhatsApp your payment slip to 94551100 to confirm your spot.</span>
+        <span class="zh-inline">請轉帳HK$680至FPS 94551100，備註填上你的姓名，再 WhatsApp 付款截圖至 94551100 確認位置。</span>
+      </div>
+      <div class="signup-form" data-event="Tea · Sound · Taste">
+        <div class="form-row">
+          <input type="text" data-en="Your name" data-zh="你的姓名" placeholder="Your name" />
+          <input type="tel" data-en="Phone (WhatsApp)" data-zh="電話（WhatsApp）" placeholder="Phone (WhatsApp)" />
+        </div>
+        <input type="email" data-en="Email address" data-zh="電郵地址" placeholder="Email address" />
+        <input type="text" data-en="Have you tried a sound bath before? (optional)" data-zh="你有試過缽聲浴或銅鑼浴嗎？（可選）" placeholder="Have you tried a sound bath before? (optional)" />
+        <input type="text" data-en="Dietary restrictions or anything we should know (optional)" data-zh="飲食限制或其他備註（可選）" placeholder="Dietary restrictions or anything we should know (optional)" />
+</div>
+        <button class="submit-btn" data-en="Reserve my spot" data-zh="預留我的位置">Reserve my spot</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENT 3+4: MAKAN VEGETARIAN -->
+  <div class="event">
+    <button class="event-trigger" onclick="toggleEvent(this)">
+      <div class="event-accent" style="background:#c9963a"></div>
+      <div class="event-main">
+        <div class="event-date"><span class="en-inline">24 July 2026 · 7:00–10:00pm · 25 July 2026 · 5:00–8:00pm</span><span class="zh-inline">2026年7月24日 · 晚上7:00–10:00 · 2026年7月25日 · 下午5:00–8:00</span></div>
+        <div class="event-name">Makan</div>
+        <div class="event-venue"><span class="en-inline">Bali vegetarian dining · Keep in Touch Studio</span><span class="zh-inline">峇里素食晚宴 · Keep in Touch Studio</span></div>
+      </div>
+      <div class="event-right">
+        <span class="event-price">HK$700</span>
+        <span class="event-capacity"><span class="en-inline">max 8</span><span class="zh-inline">限額8位</span></span>
+        <span class="event-chevron">↓</span>
+      </div>
+    </button>
+    <div class="event-body">
+      <div class="event-description en">
+        <p>Some places stay with us long after we leave.</p>
+        <p>In a taste. A scent. A conversation with someone we may never meet again. A way of seeing, living, or being that quietly follows us home.</p>
+        <p>Over the past few years, we have returned to Bali again and again. Somewhere along the way, it became more than a place we visited. Through the land, the food, the people we met and the warmth with which we were welcomed, Bali found a special place in our hearts.</p>
+        <p>This July, we invite eight guests around the Keep in Touch table for two intimate evenings of food, drinks and stories.</p>
+        <p>Not to recreate Bali. But to share something of our relationship with it — the places that moved us, the people who welcomed us with such warmth, the flavours we keep thinking about, and the moments we are still carrying home.</p>
+        <p>Throughout the evening, a vegetarian menu unfolds alongside thoughtful drink pairings and stories gathered along the way.</p>
+        <p>Some will be told. Some will be tasted. Some may simply be felt.</p>
+        <p>A meal shaped by memory, curiosity and gratitude.</p>
+        <p>For two evenings only, come makan with us.</p>
+      </div>
+      <div class="event-description zh">
+        <p>有些地方，離開以後，依然會留在我們心裡很久。</p>
+        <p>可能是一種味道。一縷氣息。一場與某個也許不會再見的人之間的對話。又或者，是某種看待世界、生活與存在的方式，悄悄跟著我們回了家。</p>
+        <p>過去幾年，我們一次又一次回到峇里島。不知從什麼時候開始，它已不再只是一個我們到訪的地方。那片土地、那裡的食物、一路遇見的人，還有一次又一次被溫暖接住的感覺，讓峇里島慢慢在我們心裡，成為了一個很特別的存在。</p>
+        <p>這個七月，我們邀請八位客人來到 Keep in Touch 的餐桌旁，一起度過兩個關於食物、飲品與故事的晚上。</p>
+        <p>不是為了重現峇里島。而是想與你分享，我們與這個地方之間的一點故事——那些曾經觸動我們的地方、以溫暖迎接我們的人、至今仍然念念不忘的味道，還有一些，我們依然帶在身上、帶回生活裡的片刻。</p>
+        <p>整個晚上，純素菜單將隨著精心配搭的飲品與沿途收集的故事，慢慢展開。</p>
+        <p>有些，化成故事。有些，融進味道。有些，也許只留在感受裡。</p>
+        <p>一頓由記憶、好奇與感恩慢慢醞釀而成的晚餐。</p>
+        <p>只此兩夜，來和我們一起 makan，一起吃飯吧。</p>
+      </div>
+      <div class="event-meta-row">
+        <span class="meta-pill"><span class="en-inline">Vegetarian menu</span><span class="zh-inline">純素菜單</span></span>
+        <span class="meta-pill"><span class="en-inline">Drink pairing</span><span class="zh-inline">飲品配搭</span></span>
+        <span class="meta-pill"><span class="en-inline">Stories from Bali</span><span class="zh-inline">峇里故事</span></span>
+        <span class="meta-pill"><span class="en-inline">8 guests per evening</span><span class="zh-inline">每晚限額8位</span></span>
+      </div>
+      <div class="payment-note" style="border-left-color: var(--clay);">
+        <span class="en-inline">Keep in Touch is a small, private kitchen. This July, our menu is prepared by Carina with care and intention — as a whole, and not subject to individual dietary adjustments. Please consider this before registering.</span>
+        <span class="zh-inline">Keep in Touch 是一個小小的私廚。這個七月，所有菜餚由 Carina 親手準備，菜單以整體呈現，恕未能因應個別飲食需求調整。請在登記前先考慮是否適合你。</span>
+      </div>
+      <div class="payment-note">
+        <span class="en-inline">Transfer HK$700 via FPS to 94551100. Note your name and chosen date. Then WhatsApp your payment slip to 94551100 to confirm your spot.</span>
+        <span class="zh-inline">請轉帳HK$700至FPS 94551100，備註填上姓名及選擇日期，再 WhatsApp 付款截圖至 94551100 確認位置。</span>
+      </div>
+      <div class="signup-form" data-event="Makan (Vegetarian)">
+        <div class="form-row">
+          <input type="text" data-en="Your name" data-zh="你的姓名" placeholder="Your name" />
+          <input type="tel" data-en="Phone (WhatsApp)" data-zh="電話（WhatsApp）" placeholder="Phone (WhatsApp)" />
+        </div>
+        <input type="email" data-en="Email address" data-zh="電郵地址" placeholder="Email address" />
+        <select data-en-opts='["Which date?","24 July · 7:00–10:00pm","25 July · 5:00–8:00pm"]' data-zh-opts='["選擇日期","7月24日 · 晚上7:00–10:00","7月25日 · 下午5:00–8:00"]'>
+          <option>Which date?</option>
+          <option>24 July · 7:00–10:00pm</option>
+          <option>25 July · 5:00–8:00pm</option>
+        </select>
+        <button class="submit-btn" data-en="Reserve my spot" data-zh="預留我的位置">Reserve my spot</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENT 5: WEAVING LOVE -->
+  <div class="event">
+    <button class="event-trigger" onclick="toggleEvent(this)">
+      <div class="event-accent" style="background:#c47a8a"></div>
+      <div class="event-main">
+        <div class="event-date"><span class="en-inline">26 July 2026 · 2:00–5:00pm</span><span class="zh-inline">2026年7月26日 · 下午2:00–5:00</span></div>
+        <div class="event-name">織光 · Weaving Light</div>
+        <div class="event-venue"><span class="en-inline">Keep in Touch Studio</span><span class="zh-inline">Keep in Touch Studio</span></div>
+      </div>
+      <div class="event-right">
+        <span class="event-price">HK$880</span>
+        <span class="event-capacity"><span class="en-inline">max 10</span><span class="zh-inline">限額10位</span></span>
+        <span class="event-chevron">↓</span>
+      </div>
+    </button>
+    <div class="event-body">
+      <div class="event-description en">
+        <p>This afternoon begins with a hand-carved rose pearl.</p>
+        <p>Formed slowly over time, each natural pearl carries its own unique lustre. In the hands of an artisan, it is carefully carved into a rose in bloom — no two ever quite the same, each carrying traces of time within it.</p>
+        <p>Together, we will weave a pearl bracelet of our own. As thread moves between our fingers, we allow the hands to find their rhythm and the mind to slowly settle into the making. Knot by knot, something begins to take form — a piece that is entirely your own.</p>
+        <p>After weaving, we gather around small bites and tea prepared by <a href="https://www.instagram.com/carina_heting/" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline;text-underline-offset:3px;">@carina_heting</a>, sharing whatever feelings or stories are present in that moment.</p>
+        <p>Here, you are simply you. There is nothing to achieve this afternoon, and no one you need to become.</p>
+        <p>Only the lustre of pearls, the feeling of creating with our hands, the taste of food and tea, and the moments we find in meeting one another.</p>
+        <p>Together, we weave. We taste. We stay with the moment, and quietly feel.</p>
+        <p><em>Includes: one hand-carved rose pearl, 925 sterling silver components, all weaving materials, and small bites and tea prepared by <a href="https://www.instagram.com/carina_heting/" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline;text-underline-offset:3px;">@carina_heting</a>.</em></p>
+      </div>
+      <div class="event-description zh">
+        <p>這個下午，我們將以一顆手工雕刻的玫瑰珍珠作為開始。</p>
+        <p>天然珍珠經過歲月孕育，形成獨特的光澤，再由工匠以雙手細細雕刻成一朵盛放的玫瑰。每一顆都獨一無二，也承載著時間留下的痕跡。</p>
+        <p>在聚會裡，我們會親手編織一條屬於自己的珍珠手繩。讓雙手慢慢跟上呼吸，讓思緒在編織之間漸漸沉澱。線繩穿過指縫，一結一結，慢慢織出只屬於自己的模樣。</p>
+        <p>編織過後，我們會一起品嚐由 <a href="https://www.instagram.com/carina_heting/" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline;text-underline-offset:3px;">@carina_heting</a> 親手製作的精緻茶點與茶飲，圍坐在一起，分享當下的感受與故事。</p>
+        <p>暫時放下日常的繁雜，也放下我們習慣扮演的角色。此刻，你只是你。</p>
+        <p>這個下午，沒有需要完成的目標，也不需要成為任何人。只有珍珠的光、雙手的觸感、食物與茶的滋味，還有彼此相遇的片刻。</p>
+        <p>一起織光，一起品味，一起在當下，靜靜感受。</p>
+        <p><em>費用包括手工雕刻玫瑰珍珠、925 純銀配件、所有編織材料，以及由 <a href="https://www.instagram.com/carina_heting/" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline;text-underline-offset:3px;">@carina_heting</a> 親手製作的茶點與茶飲。</em></p>
+      </div>
+      <div class="event-meta-row">
+        <span class="meta-pill"><span class="en-inline">Hand-carved rose pearl</span><span class="zh-inline">手工雕刻玫瑰珍珠</span></span>
+        <span class="meta-pill"><span class="en-inline">Pearl bracelet weaving</span><span class="zh-inline">珍珠手繩編織</span></span>
+        <span class="meta-pill"><span class="en-inline">925 silver components</span><span class="zh-inline">925純銀配件</span></span>
+        <span class="meta-pill"><span class="en-inline">Tea & small bites</span><span class="zh-inline">茶點</span></span>
+        <span class="meta-pill"><span class="en-inline">All materials included</span><span class="zh-inline">材料全包</span></span>
+      </div>
+      <div class="payment-note">
+        <span class="en-inline">Transfer HK$880 via FPS to 94551100. Note your name and chosen date. Then WhatsApp your payment slip to 94551100 to confirm your spot.</span>
+        <span class="zh-inline">請轉帳HK$880至FPS 94551100，備註填上姓名及選擇日期，再 WhatsApp 付款截圖至 94551100 確認位置。</span>
+      </div>
+      <div class="signup-form" data-event="織光 · Weaving Love">
+        <div class="form-row">
+          <input type="text" data-en="Your name" data-zh="你的姓名" placeholder="Your name" />
+          <input type="tel" data-en="Phone (WhatsApp)" data-zh="電話（WhatsApp）" placeholder="Phone (WhatsApp)" />
+        </div>
+        <input type="email" data-en="Email address" data-zh="電郵地址" placeholder="Email address" />
+        <input type="text" data-en="Who are you making this bracelet for? (optional)" data-zh="你想為誰編織這條手繩？（可選）" placeholder="Who are you making this bracelet for? (optional)" />
+</div>
+        <button class="submit-btn" data-en="Reserve my spot" data-zh="預留我的位置">Reserve my spot</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENT 6: MAKAN SEAFOOD -->
+  <div class="event">
+    <button class="event-trigger" onclick="toggleEvent(this)">
+      <div class="event-accent" style="background:#c4714a"></div>
+      <div class="event-main">
+        <div class="event-date"><span class="en-inline">1 August 2026 · 5:00–8:00pm · 2 August 2026 · 5:00–8:00pm</span><span class="zh-inline">2026年8月1日 · 下午5:00–8:00 · 2026年8月2日 · 下午5:00–8:00</span></div>
+        <div class="event-name">Makan</div>
+        <div class="event-venue"><span class="en-inline">Bali dining · Keep in Touch Studio</span><span class="zh-inline">峇里晚宴 · Keep in Touch Studio</span></div>
+      </div>
+      <div class="event-right">
+        <span class="event-price">HK$700</span>
+        <span class="event-capacity"><span class="en-inline">max 8</span><span class="zh-inline">限額8位</span></span>
+        <span class="event-chevron">↓</span>
+      </div>
+    </button>
+    <div class="event-body">
+      <div class="event-description en">
+        <p>One table could never hold every story.</p>
+        <p>Over the past few years, we have returned to Bali again and again. Each time, something different stays with us — a flavour we keep thinking about, a place that shifts something quietly within us, an encounter we carry home.</p>
+        <p>Somewhere along the way, Bali became more than a place we visited. Through the land, the food, the people we met and the warmth with which we were welcomed, it found a special place in our hearts.</p>
+        <p>This August, MAKAN opens into another chapter. For two intimate evenings, we return to the Keep in Touch table with more memories and stories to share. A menu unfolds from moments gathered across our time in Bali — shaped by flavours we still think about, places that moved us, and encounters that continue to stay with us.</p>
+        <p>This chapter of MAKAN opens into a broader palette of flavours, with a largely plant-led menu alongside selected dishes featuring fish and other seafood ingredients, accompanied by thoughtful drink pairings.</p>
+        <p>Throughout the evening, stories gathered along the way find their place around the table.</p>
+        <p>Some will be told. Some will be tasted. Some may simply be felt.</p>
+        <p>A meal shaped by memory, curiosity and gratitude.</p>
+        <p>For two evenings only, come makan with us.</p>
+      </div>
+      <div class="event-description zh">
+        <p>我們與峇里島的故事，還在繼續。</p>
+        <p>過去幾年，我們一次又一次回到峇里島。每一次，都有些不一樣的東西留了下來——一種讓我們念念不忘的味道、一個悄悄觸動內心的地方、一場跟著我們回到生活裡的相遇。</p>
+        <p>不知從什麼時候開始，峇里島已不再只是一個我們到訪的地方。那片土地、那裡的食物、一路遇見的人，還有一次又一次被溫暖接住的感覺，讓它慢慢在我們心裡，成為了一個很特別的存在。</p>
+        <p>這個八月，MAKAN 展開另一個篇章。兩個親密的小夜晚，我們再次回到 Keep in Touch 的餐桌，分享更多記憶與故事。一席菜單，從這些年在峇里島累積的片刻中慢慢展開——那些至今仍讓我們念念不忘的味道、曾經觸動我們的地方，還有一直留在心裡的相遇。</p>
+        <p>這一次的 MAKAN，味道的風景再開闊一點。菜單仍以植物為主，並加入少量魚類及其他海鮮元素，配搭精心挑選的飲品。</p>
+        <p>整個晚上，一路收集回來的故事，也會慢慢走進餐桌之間。</p>
+        <p>有些，化成故事。有些，融進味道。有些，也許只留在感受裡。</p>
+        <p>一頓由記憶、好奇與感恩慢慢醞釀而成的晚餐。</p>
+        <p>只此兩夜，來和我們一起 makan，一起吃飯吧。</p>
+      </div>
+      <div class="event-meta-row">
+        <span class="meta-pill"><span class="en-inline">Plant-led menu</span><span class="zh-inline">以植物為主</span></span>
+        <span class="meta-pill"><span class="en-inline">Selected fish & seafood</span><span class="zh-inline">部分菜式含魚類及海鮮</span></span>
+        <span class="meta-pill"><span class="en-inline">No meat</span><span class="zh-inline">不含肉類</span></span>
+        <span class="meta-pill"><span class="en-inline">Drink pairing</span><span class="zh-inline">配搭飲品</span></span>
+        <span class="meta-pill"><span class="en-inline">8 guests per evening</span><span class="zh-inline">每晚限額8位</span></span>
+      </div>
+      <div class="payment-note" style="border-left-color: var(--clay);">
+        <span class="en-inline">Keep in Touch is a small, private kitchen. This July, our menu is prepared by Carina with care and intention — as a whole, and not subject to individual dietary adjustments. Please consider this before registering.</span>
+        <span class="zh-inline">Keep in Touch 是一個小小的私廚。這個七月，所有菜餚由 Carina 親手準備，菜單以整體呈現，恕未能因應個別飲食需求調整。請在登記前先考慮是否適合你。</span>
+      </div>
+      <div class="payment-note">
+        <span class="en-inline">Transfer HK$700 via FPS to 94551100. Note your name and chosen date. Then WhatsApp your payment slip to 94551100 to confirm your spot.</span>
+        <span class="zh-inline">請轉帳HK$700至FPS 94551100，備註填上姓名及選擇日期，再 WhatsApp 付款截圖至 94551100 確認位置。</span>
+      </div>
+      <div class="signup-form" data-event="Makan (Seafood)">
+        <div class="form-row">
+          <input type="text" data-en="Your name" data-zh="你的姓名" placeholder="Your name" />
+          <input type="tel" data-en="Phone (WhatsApp)" data-zh="電話（WhatsApp）" placeholder="Phone (WhatsApp)" />
+        </div>
+        <input type="email" data-en="Email address" data-zh="電郵地址" placeholder="Email address" />
+        <select data-en-opts='["Which date?","1 August · 5:00–8:00pm","2 August · 5:00–8:00pm"]' data-zh-opts='["選擇日期","8月1日 · 下午5:00–8:00","8月2日 · 下午5:00–8:00"]'>
+          <option>Which date?</option>
+          <option>1 August · 5:00–8:00pm</option>
+          <option>2 August · 5:00–8:00pm</option>
+        </select>
+</div>
+        <button class="submit-btn" data-en="Reserve my spot" data-zh="預留我的位置">Reserve my spot</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-sig">好好生活</div>
+  <div class="footer-handle">@keepintouch852 · keepintouchwithheting@gmail.com</div>
+</footer>
+
+<script>
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzQMgGjfWY9PoBUUtZ8_7VKi1xFF9RwD5DYnNz6BO8-z9ra50fy2-3qTvRwcUF3wUMkdw/exec';
+let currentLang = 'en';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.body.classList.toggle('lang-zh', lang === 'zh');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
+  document.querySelectorAll('input[data-en]').forEach(el => {
+    el.placeholder = el.getAttribute('data-' + lang) || '';
+  });
+  document.querySelectorAll('select[data-en-opts]').forEach(sel => {
+    const opts = JSON.parse(sel.getAttribute('data-' + lang + '-opts'));
+    Array.from(sel.options).forEach((opt, i) => { if (opts[i]) opt.text = opts[i]; });
+  });
+  document.querySelectorAll('.submit-btn[data-en]').forEach(btn => {
+    if (!btn.disabled) btn.textContent = btn.getAttribute('data-' + lang);
+  });
+}
+
+function toggleEvent(btn) {
+  const card = btn.closest('.event');
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.event').forEach(e => e.classList.remove('open'));
+  if (!isOpen) card.classList.add('open');
+}
+
+document.querySelectorAll('.submit-btn').forEach(btn => {
+  btn.addEventListener('click', async function () {
+    const form = this.closest('.signup-form');
+    const eventName = form.getAttribute('data-event');
+    const inputs = form.querySelectorAll('input[type="text"], input[type="tel"], input[type="email"]');
+    const sel = form.querySelector('select');
+    const name = inputs[0]?.value.trim();
+    const phone = inputs[1]?.value.trim();
+    const email = inputs[2]?.value.trim();
+
+    if (!name || !phone || !email) {
+      alert(currentLang === 'zh' ? '請填寫姓名、電話及電郵。' : 'Please fill in your name, phone, and email.');
+      return;
+    }
+
+    this.textContent = currentLang === 'zh' ? '傳送中...' : 'Sending...';
+    this.disabled = true;
+
+    const extras = Array.from(inputs).slice(3).map(i => i.value.trim()).filter(Boolean);
+
+    const payload = {
+      event: eventName,
+      name, phone, email,
+      date: sel?.value || '',
+      extra: extras.join(' | '),
+      lang: currentLang
+    };
+
+    try {
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      this.textContent = currentLang === 'zh'
+        ? '✓ 已收到 — 感謝你，期待與你相遇'
+        : '✓ Received — thank you, we look forward to gathering with you';
+      this.style.background = 'var(--sage)';
+    } catch (e) {
+      this.textContent = currentLang === 'zh'
+        ? '出現問題，請電郵 keepintouchwithheting@gmail.com'
+        : 'Something went wrong — please email keepintouchwithheting@gmail.com';
+      this.disabled = false;
+    }
+  });
+});
+</script>
+<script>
+  // Auto-resize for Carrd embed
+  function sendHeight() {
+    const height = document.documentElement.scrollHeight;
+    window.parent.postMessage({ type: 'resize', height: height }, '*');
+  }
+  window.addEventListener('load', sendHeight);
+  window.addEventListener('resize', sendHeight);
+  // Also send height when events are toggled open
+  document.addEventListener('click', function() {
+    setTimeout(sendHeight, 350);
+  });
+</script>
+</body>
+</html>
