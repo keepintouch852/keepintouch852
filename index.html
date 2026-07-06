@@ -465,7 +465,7 @@
 </footer>
 
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJG1m6nzPBaypFPUEk6uM8RivRxCRi7oFKI0Lq1fIp4h6W10xDVZxm92kkXtU9UnXZ3Q/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-kHlABarht90l9RHzShjLxf3N-H5pj1wvKgSvjQElJyUQJjXTaWd8gGP9WGaJdK42ow/exec';
 let currentLang = 'en';
 
 function setLang(lang) {
@@ -527,7 +527,7 @@ document.querySelectorAll('.submit-btn').forEach(btn => {
     document.body.appendChild(iframe);
 
     const hiddenForm = document.createElement('form');
-    hiddenForm.method = 'POST';
+    hiddenForm.method = 'GET';
     hiddenForm.action = SCRIPT_URL;
     hiddenForm.target = iframeName;
     hiddenForm.style.display = 'none';
